@@ -252,9 +252,7 @@ class _ButerflyMobileState extends State<ButerflyMobile>
     if (widget.showAnim) {
       dropController.forward();
     } else {
-      dropController.reverse().then<void>((void value) {
-        if (!mounted) return;
-      });
+      dropController.reverse();
     }
 
     return Column(
