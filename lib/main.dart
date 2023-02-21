@@ -27,26 +27,24 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final currentWidth = MediaQuery.of(context).size.width;
+  // Widget build(BuildContext context) {
+  //   final currentWidth = MediaQuery.of(context).size.width;
 
-    return currentWidth < 600
-        ? const ButerflyMobileList()
-        : const ButerflyPlanshet();
-  }
-
-  //  Widget build(BuildContext context) {
-  //   return LayoutBuilder(builder: (builder, constraints) {
-  //     final screenWidth = constraints.maxWidth;
-  //     if (screenWidth > 1024) {
-  //       return const ButerflyDesktop();
-  //     }
-
-  //     if (screenWidth > 600) {
-  //       return const ButerflyPlanshet();
-  //     }
-
-  //     return const ButerflyMobileList();
-  //   });
+  //   return currentWidth < 600 ? ButerflyMobileList() : const ButerflyPlanshet();
   // }
+
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (builder, constraints) {
+      final screenWidth = constraints.maxWidth;
+      if (screenWidth > 1024) {
+        return const ButerflyDesktop();
+      }
+
+      if (screenWidth > 600) {
+        return const ButerflyPlanshet();
+      }
+
+      return ButerflyMobileList();
+    });
+  }
 }

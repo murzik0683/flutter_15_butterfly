@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_5_butterfly/model.dart';
 
@@ -30,7 +29,10 @@ class _ButerflyPlanshetState extends State<ButerflyPlanshet> {
                   children: [
                     SizedBox(
                         width: 250, height: 100, child: _buildSearchForm()),
-                    SizedBox(width: 120, height: 90, child: _button()),
+                    SizedBox(
+                      width: 120, height: 90,
+                      //child: _button()
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -167,6 +169,30 @@ class _ButerflyPlanshetState extends State<ButerflyPlanshet> {
             if (value!.isEmpty) return 'Введите имя бабочки';
             return null;
           },
+          onFieldSubmitted: (value) {
+            //отдает строку кот. можно исп-ть
+
+            if (value.isNotEmpty) {
+              final searchedIndex =
+                  butterfly.indexWhere((e) => e.name.contains(value));
+
+              if (searchedIndex >= 0) {
+                setState(() {});
+                // showA = true;
+                // print('showA $showA');
+
+                _selectedIndex = searchedIndex;
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Такой бабочки "${_controller.value.text}" нет в списке 😞'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            }
+          },
           // onChanged: (value) {
           //   setState(() {});
           //   if (_formKey.currentState!.validate()) {
@@ -196,48 +222,48 @@ class _ButerflyPlanshetState extends State<ButerflyPlanshet> {
     );
   }
 
-  Widget _button() {
-    bool flag = true;
-    return Container(
-      margin: const EdgeInsets.all(20),
-      width: MediaQuery.of(context).size.width * 0.4,
-      height: MediaQuery.of(context).size.height * 0.05,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        gradient: const LinearGradient(
-          colors: [Color.fromARGB(255, 153, 207, 252), Colors.blue],
-          begin: FractionalOffset.centerLeft,
-          end: FractionalOffset.centerRight,
-        ),
-      ),
-      child: TextButton(
-        onPressed: () {
-          setState(() {});
-          if (_formKey.currentState!.validate()) {
-            for (int i = 0; i < butterfly.length; i++) {
-              String nameButterfly = butterfly.elementAt(i).name;
-              if (nameButterfly.startsWith(_controller.value.text)) {
-                flag = false;
-                _selectedIndex = i;
-                FocusScope.of(context).unfocus();
-              }
-            }
-            if (flag) {
-              _selectedIndex = -1;
+  // Widget _button() {
+  //   bool flag = true;
+  //   return Container(
+  //     margin: const EdgeInsets.all(20),
+  //     width: MediaQuery.of(context).size.width * 0.4,
+  //     height: MediaQuery.of(context).size.height * 0.05,
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(15),
+  //       gradient: const LinearGradient(
+  //         colors: [Color.fromARGB(255, 153, 207, 252), Colors.blue],
+  //         begin: FractionalOffset.centerLeft,
+  //         end: FractionalOffset.centerRight,
+  //       ),
+  //     ),
+  //     child: TextButton(
+  //       onPressed: () {
+  //         setState(() {});
+  //         if (_formKey.currentState!.validate()) {
+  //           for (int i = 0; i < butterfly.length; i++) {
+  //             String nameButterfly = butterfly.elementAt(i).name;
+  //             if (nameButterfly.startsWith(_controller.value.text)) {
+  //               flag = false;
+  //               _selectedIndex = i;
+  //               FocusScope.of(context).unfocus();
+  //             }
+  //           }
+  //           if (flag) {
+  //             _selectedIndex = -1;
 
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    'Такой бабочки "${_controller.value.text}" нет в списке'),
-                backgroundColor: Colors.red,
-              ));
-            }
-          }
-        },
-        child: const Text(
-          'Найти',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-    );
-  }
+  //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //               content: Text(
+  //                   'Такой бабочки "${_controller.value.text}" нет в списке'),
+  //               backgroundColor: Colors.red,
+  //             ));
+  //           }
+  //         }
+  //       },
+  //       child: const Text(
+  //         'Найти',
+  //         style: TextStyle(color: Colors.white),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
